@@ -29,8 +29,8 @@ console = Console()
 
 app = typer.Typer(
     name="TradingAgents",
-    help="TradingAgents CLI: Multi-Agents LLM Financial Trading Framework",
-    add_completion=True,  # Enable shell completion
+    help="TradingAgents CLI : Cadre de trading financier multi-agents LLM",
+    add_completion=True,
 )
 
 
@@ -190,9 +190,9 @@ def update_display(layout, spinner_text=None):
     # Header with welcome message
     layout["header"].update(
         Panel(
-            "[bold green]Welcome to TradingAgents CLI[/bold green]\n"
+            "[bold green]Bienvenue dans TradingAgents CLI[/bold green]\n"
             "[dim]© [Tauric Research](https://github.com/TauricResearch)[/dim]",
-            title="Welcome to TradingAgents",
+            title="Bienvenue dans TradingAgents",
             border_style="green",
             padding=(1, 2),
             expand=True,
@@ -399,11 +399,11 @@ def get_user_selections():
 
     # Create welcome box content
     welcome_content = f"{welcome_ascii}\n"
-    welcome_content += "[bold green]TradingAgents: Multi-Agents LLM Financial Trading Framework - CLI[/bold green]\n\n"
-    welcome_content += "[bold]Workflow Steps:[/bold]\n"
-    welcome_content += "I. Analyst Team → II. Research Team → III. Trader → IV. Risk Management → V. Portfolio Management\n\n"
+    welcome_content += "[bold green]TradingAgents : Cadre de trading financier multi-agents LLM - CLI[/bold green]\n\n"
+    welcome_content += "[bold]Étapes du flux de travail :[/bold]\n"
+    welcome_content += "I. Équipe d'analyse → II. Équipe de recherche → III. Trader → IV. Gestion du risque → V. Gestion de portefeuille\n\n"
     welcome_content += (
-        "[dim]Built by [Tauric Research](https://github.com/TauricResearch)[/dim]"
+        "[dim]Créé par [Tauric Research](https://github.com/TauricResearch)[/dim]"
     )
 
     # Create and center the welcome box
@@ -411,8 +411,8 @@ def get_user_selections():
         welcome_content,
         border_style="green",
         padding=(1, 2),
-        title="Welcome to TradingAgents",
-        subtitle="Multi-Agents LLM Financial Trading Framework",
+        title="Bienvenue dans TradingAgents",
+        subtitle="Cadre de trading financier multi-agents LLM",
     )
     console.print(Align.center(welcome_box))
     console.print()  # Add a blank line after the welcome box
@@ -425,56 +425,56 @@ def get_user_selections():
             box_content += f"\n[dim]Default: {default}[/dim]"
         return Panel(box_content, border_style="blue", padding=(1, 2))
 
-    # Step 1: Ticker symbol
+    # Étape 1 : Symbole boursier
     console.print(
         create_question_box(
-            "Step 1: Ticker Symbol", "Enter the ticker symbol to analyze", "SPY"
+            "Étape 1 : Symbole boursier", "Entrez le symbole à analyser", "SPY"
         )
     )
     selected_ticker = get_ticker()
 
-    # Step 2: Analysis date
+    # Étape 2 : Date d'analyse
     default_date = datetime.datetime.now().strftime("%Y-%m-%d")
     console.print(
         create_question_box(
-            "Step 2: Analysis Date",
-            "Enter the analysis date (YYYY-MM-DD)",
+            "Étape 2 : Date d'analyse",
+            "Entrez la date d'analyse (AAAA-MM-JJ)",
             default_date,
         )
     )
     analysis_date = get_analysis_date()
 
-    # Step 3: Select analysts
+    # Étape 3 : Sélection des analystes
     console.print(
         create_question_box(
-            "Step 3: Analysts Team", "Select your LLM analyst agents for the analysis"
+            "Étape 3 : Équipe d'analystes", "Sélectionnez vos agents analystes LLM pour l'analyse"
         )
     )
     selected_analysts = select_analysts()
     console.print(
-        f"[green]Selected analysts:[/green] {', '.join(analyst.value for analyst in selected_analysts)}"
+        f"[green]Analystes sélectionnés :[/green] {', '.join(analyst.value for analyst in selected_analysts)}"
     )
 
-    # Step 4: Research depth
+    # Étape 4 : Niveau de recherche
     console.print(
         create_question_box(
-            "Step 4: Research Depth", "Select your research depth level"
+            "Étape 4 : Niveau de recherche", "Choisissez la profondeur de recherche"
         )
     )
     selected_research_depth = select_research_depth()
 
-    # Step 5: OpenAI backend
+    # Étape 5 : Backend OpenAI
     console.print(
         create_question_box(
-            "Step 5: OpenAI backend", "Select which service to talk to"
+            "Étape 5 : Backend OpenAI", "Sélectionnez le service à utiliser"
         )
     )
     selected_llm_provider, backend_url = select_llm_provider()
     
-    # Step 6: Thinking agents
+    # Étape 6 : Agents de réflexion
     console.print(
         create_question_box(
-            "Step 6: Thinking Agents", "Select your thinking agents for analysis"
+            "Étape 6 : Agents de réflexion", "Sélectionnez vos agents de réflexion pour l'analyse"
         )
     )
     selected_shallow_thinker = select_shallow_thinking_agent(selected_llm_provider)
@@ -507,12 +507,12 @@ def get_analysis_date():
             # Validate date format and ensure it's not in the future
             analysis_date = datetime.datetime.strptime(date_str, "%Y-%m-%d")
             if analysis_date.date() > datetime.datetime.now().date():
-                console.print("[red]Error: Analysis date cannot be in the future[/red]")
+                console.print("[red]Erreur : la date d'analyse ne peut pas être dans le futur[/red]")
                 continue
             return date_str
         except ValueError:
             console.print(
-                "[red]Error: Invalid date format. Please use YYYY-MM-DD[/red]"
+                "[red]Erreur : format de date invalide. Utilisez AAAA-MM-JJ[/red]"
             )
 
 
@@ -804,13 +804,13 @@ def run_analysis():
         update_display(layout)
 
         # Add initial messages
-        message_buffer.add_message("System", f"Selected ticker: {selections['ticker']}")
+        message_buffer.add_message("System", f"Symbole choisi : {selections['ticker']}")
         message_buffer.add_message(
-            "System", f"Analysis date: {selections['analysis_date']}"
+            "System", f"Date d'analyse : {selections['analysis_date']}"
         )
         message_buffer.add_message(
             "System",
-            f"Selected analysts: {', '.join(analyst.value for analyst in selections['analysts'])}",
+            f"Analystes sélectionnés : {', '.join(analyst.value for analyst in selections['analysts'])}",
         )
         update_display(layout)
 

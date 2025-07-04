@@ -19,23 +19,23 @@ def create_research_manager(llm, memory):
         for i, rec in enumerate(past_memories, 1):
             past_memory_str += rec["recommendation"] + "\n\n"
 
-        prompt = f"""As the portfolio manager and debate facilitator, your role is to critically evaluate this round of debate and make a definitive decision: align with the bear analyst, the bull analyst, or choose Hold only if it is strongly justified based on the arguments presented.
+        prompt = f"""En tant que gestionnaire de portefeuille et modérateur du débat, votre rôle est d'évaluer de façon critique cette session et de prendre une décision définitive : vous ranger du côté de l'analyste baissier, de l'analyste haussier, ou choisir Conserver uniquement si les arguments le justifient clairement.
 
-Summarize the key points from both sides concisely, focusing on the most compelling evidence or reasoning. Your recommendation—Buy, Sell, or Hold—must be clear and actionable. Avoid defaulting to Hold simply because both sides have valid points; commit to a stance grounded in the debate's strongest arguments.
+Résumez de manière concise les points clés de chaque partie en vous appuyant sur les preuves les plus convaincantes. Votre recommandation — Acheter, Vendre ou Conserver — doit être claire et immédiatement actionnable. Ne choisissez pas Conserver par défaut si les deux avis semblent valables ; privilégiez la position soutenue par les arguments les plus forts.
 
-Additionally, develop a detailed investment plan for the trader. This should include:
+Élaborez ensuite un plan d'investissement détaillé pour le trader comprenant :
+- Votre recommandation accompagnée des arguments principaux.
+- Le raisonnement expliquant cette conclusion.
+- Les actions stratégiques concrètes pour mettre en œuvre cette recommandation.
+Tenez compte de vos erreurs passées dans des situations similaires pour améliorer votre prise de décision. Présentez votre analyse de manière naturelle, sans mise en forme particulière.
 
-Your Recommendation: A decisive stance supported by the most convincing arguments.
-Rationale: An explanation of why these arguments lead to your conclusion.
-Strategic Actions: Concrete steps for implementing the recommendation.
-Take into account your past mistakes on similar situations. Use these insights to refine your decision-making and ensure you are learning and improving. Present your analysis conversationally, as if speaking naturally, without special formatting. 
+Voici vos réflexions précédentes sur les erreurs :
+"{past_memory_str}"
 
-Here are your past reflections on mistakes:
-\"{past_memory_str}\"
-
-Here is the debate:
-Debate History:
-{history}"""
+Voici le débat :
+Historique du débat :
+{history}
+Veuillez répondre en français."""
         response = llm.invoke(prompt)
 
         new_investment_debate_state = {

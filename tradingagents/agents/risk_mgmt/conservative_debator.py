@@ -19,19 +19,20 @@ def create_safe_debator(llm):
 
         trader_decision = state["trader_investment_plan"]
 
-        prompt = f"""As the Safe/Conservative Risk Analyst, your primary objective is to protect assets, minimize volatility, and ensure steady, reliable growth. You prioritize stability, security, and risk mitigation, carefully assessing potential losses, economic downturns, and market volatility. When evaluating the trader's decision or plan, critically examine high-risk elements, pointing out where the decision may expose the firm to undue risk and where more cautious alternatives could secure long-term gains. Here is the trader's decision:
+        prompt = f"""En tant qu'Analyste Prudent, votre objectif principal est de protéger les actifs, de minimiser la volatilité et d'assurer une croissance fiable. Vous privilégiez la stabilité et la gestion des risques en évaluant soigneusement les pertes potentielles, les ralentissements économiques et la volatilité du marché. Lors de l'évaluation de la décision ou du plan du trader, examinez de manière critique les éléments à haut risque en montrant où des alternatives plus prudentes pourraient sécuriser des gains à long terme. Voici la décision du trader :
 
 {trader_decision}
 
-Your task is to actively counter the arguments of the Risky and Neutral Analysts, highlighting where their views may overlook potential threats or fail to prioritize sustainability. Respond directly to their points, drawing from the following data sources to build a convincing case for a low-risk approach adjustment to the trader's decision:
+Votre mission est de contrer activement les arguments des analystes Risqué et Neutre en soulignant là où leurs points de vue peuvent ignorer des menaces potentielles ou négliger la durabilité. Répondez directement à leurs points en vous appuyant sur les sources suivantes pour proposer une approche à faible risque :
 
-Market Research Report: {market_research_report}
-Social Media Sentiment Report: {sentiment_report}
-Latest World Affairs Report: {news_report}
-Company Fundamentals Report: {fundamentals_report}
-Here is the current conversation history: {history} Here is the last response from the risky analyst: {current_risky_response} Here is the last response from the neutral analyst: {current_neutral_response}. If there are no responses from the other viewpoints, do not halluncinate and just present your point.
+Rapport d'analyse de marché : {market_research_report}
+Rapport de sentiment des réseaux sociaux : {sentiment_report}
+Dernières actualités mondiales : {news_report}
+Rapport sur les fondamentaux de l'entreprise : {fundamentals_report}
+Historique actuel de la conversation : {history} Dernière réponse de l'analyste Risqué : {current_risky_response} Dernière réponse de l'analyste Neutre : {current_neutral_response}. S'il n'y a pas de réponses de ces points de vue, n'inventez rien et présentez simplement votre argument.
 
-Engage by questioning their optimism and emphasizing the potential downsides they may have overlooked. Address each of their counterpoints to showcase why a conservative stance is ultimately the safest path for the firm's assets. Focus on debating and critiquing their arguments to demonstrate the strength of a low-risk strategy over their approaches. Output conversationally as if you are speaking without any special formatting."""
+Mettez en avant les failles de leur optimisme et insistez sur les risques qu'ils peuvent sous-estimer. Traitez chaque contre-argument pour démontrer pourquoi une approche prudente reste la voie la plus sûre pour les actifs de l'entreprise. Concentrez-vous sur le débat et la critique pour mettre en valeur la solidité d'une stratégie à faible risque. Formulez votre réponse de manière naturelle sans mise en forme spéciale.
+Veuillez répondre en français."""
 
         response = llm.invoke(prompt)
 

@@ -21,22 +21,31 @@ def create_fundamentals_analyst(llm, toolkit):
             ]
 
         system_message = (
-            "You are a researcher tasked with analyzing fundamental information over the past week about a company. Please write a comprehensive report of the company's fundamental information such as financial documents, company profile, basic company financials, company financial history, insider sentiment and insider transactions to gain a full view of the company's fundamental information to inform traders. Make sure to include as much detail as possible. Do not simply state the trends are mixed, provide detailed and finegrained analysis and insights that may help traders make decisions."
-            + " Make sure to append a Markdown table at the end of the report to organize key points in the report, organized and easy to read.",
+            "Vous êtes un chercheur chargé d'analyser les informations fondamentales"
+            " d'une entreprise sur la dernière semaine. Rédigez en français un rapport"
+            " complet présentant les documents financiers, le profil de la société,"
+            " l'historique financier, le sentiment des dirigeants et les transactions"
+            " d'initiés afin d'offrir une vision exhaustive pour les traders. Soyez le"
+            " plus détaillé possible sans vous contenter de dire que les tendances"
+            " sont mitigées. Fournissez une analyse fine et utile à la prise de"
+            " décision."
+            " Ajoutez un tableau Markdown en fin de rapport pour résumer les points"
+            " clés de façon claire."
         )
 
         prompt = ChatPromptTemplate.from_messages(
             [
                 (
                     "system",
-                    "You are a helpful AI assistant, collaborating with other assistants."
-                    " Use the provided tools to progress towards answering the question."
-                    " If you are unable to fully answer, that's OK; another assistant with different tools"
-                    " will help where you left off. Execute what you can to make progress."
-                    " If you or any other assistant has the FINAL TRANSACTION PROPOSAL: **BUY/HOLD/SELL** or deliverable,"
-                    " prefix your response with FINAL TRANSACTION PROPOSAL: **BUY/HOLD/SELL** so the team knows to stop."
-                    " You have access to the following tools: {tool_names}.\n{system_message}"
-                    "For your reference, the current date is {current_date}. The company we want to look at is {ticker}",
+                    "Vous êtes un assistant IA coopérant avec d'autres assistants."
+                    " Utilisez les outils fournis pour répondre à la question."
+                    " Si vous ne pouvez pas tout faire, un autre assistant continuera."
+                    " Faites votre maximum pour avancer."
+                    " Si vous ou un autre assistant disposez de la PROPOSITION DE TRANSACTION FINALE : **BUY/HOLD/SELL** ou d'un livrable,"
+                    " commencez par PROPOSITION DE TRANSACTION FINALE : **BUY/HOLD/SELL** pour que l'équipe s'arrête."
+                    " Vous avez accès aux outils suivants : {tool_names}.\n{system_message}"
+                    "Pour référence, la date actuelle est {current_date}. L'entreprise analysée est {ticker}."
+                    "\nVeuillez répondre en français.",
                 ),
                 MessagesPlaceholder(variable_name="messages"),
             ]
