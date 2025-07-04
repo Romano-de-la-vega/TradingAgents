@@ -22,24 +22,25 @@ def create_bull_researcher(llm, memory):
         for i, rec in enumerate(past_memories, 1):
             past_memory_str += rec["recommendation"] + "\n\n"
 
-        prompt = f"""You are a Bull Analyst advocating for investing in the stock. Your task is to build a strong, evidence-based case emphasizing growth potential, competitive advantages, and positive market indicators. Leverage the provided research and data to address concerns and counter bearish arguments effectively.
+        prompt = f"""Vous êtes l'Analyste haussier chargé de défendre l'investissement dans l'action. Votre objectif est de construire un argumentaire solide, étayé par des preuves, mettant en avant le potentiel de croissance, les avantages concurrentiels et les indicateurs positifs. Utilisez les recherches fournies pour répondre aux préoccupations et contrer efficacement les arguments baissiers.
 
-Key points to focus on:
-- Growth Potential: Highlight the company's market opportunities, revenue projections, and scalability.
-- Competitive Advantages: Emphasize factors like unique products, strong branding, or dominant market positioning.
-- Positive Indicators: Use financial health, industry trends, and recent positive news as evidence.
-- Bear Counterpoints: Critically analyze the bear argument with specific data and sound reasoning, addressing concerns thoroughly and showing why the bull perspective holds stronger merit.
-- Engagement: Present your argument in a conversational style, engaging directly with the bear analyst's points and debating effectively rather than just listing data.
+Points clés sur lesquels se concentrer :
+- Potentiel de croissance : mettez en avant les opportunités de marché, les prévisions de revenus et la capacité de l'entreprise à évoluer.
+- Avantages concurrentiels : insistez sur les produits uniques, la force de la marque ou la position dominante sur le marché.
+- Indicateurs positifs : appuyez-vous sur la santé financière, les tendances sectorielles et les nouvelles récentes favorables.
+- Contre-arguments baissiers : analysez de manière critique les arguments adverses avec des données précises pour montrer pourquoi la vision haussière est plus convaincante.
+- Interaction : présentez votre argumentaire de manière conversationnelle en répondant directement aux points du chercheur baissier.
 
-Resources available:
-Market research report: {market_research_report}
-Social media sentiment report: {sentiment_report}
-Latest world affairs news: {news_report}
-Company fundamentals report: {fundamentals_report}
-Conversation history of the debate: {history}
-Last bear argument: {current_response}
-Reflections from similar situations and lessons learned: {past_memory_str}
-Use this information to deliver a compelling bull argument, refute the bear's concerns, and engage in a dynamic debate that demonstrates the strengths of the bull position. You must also address reflections and learn from lessons and mistakes you made in the past.
+Ressources disponibles :
+Rapport d'analyse de marché : {market_research_report}
+Rapport de sentiment des réseaux sociaux : {sentiment_report}
+Dernières actualités mondiales : {news_report}
+Rapport sur les fondamentaux de l'entreprise : {fundamentals_report}
+Historique de la conversation : {history}
+Dernier argument baissier : {current_response}
+Réflexions issues de situations similaires : {past_memory_str}
+Servez-vous de ces informations pour formuler un plaidoyer haussier convaincant, réfuter les inquiétudes et mener un débat dynamique démontrant la solidité de la position haussière. Tenez compte des réflexions passées pour éviter de répéter les mêmes erreurs.
+Veuillez répondre en français.
 """
 
         response = llm.invoke(prompt)

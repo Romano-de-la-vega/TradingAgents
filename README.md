@@ -25,11 +25,11 @@
 
 ---
 
-# TradingAgents: Multi-Agents LLM Financial Trading Framework 
+# TradingAgents : Cadre de trading financier multi-agents LLM
 
-> 🎉 **TradingAgents** officially released! We have received numerous inquiries about the work, and we would like to express our thanks for the enthusiasm in our community.
+> 🎉 **TradingAgents** est officiellement disponible ! Nous avons reçu de nombreuses questions sur ce travail et nous remercions notre communauté pour son enthousiasme.
 >
-> So we decided to fully open-source the framework. Looking forward to building impactful projects with you!
+> Nous avons donc décidé d'ouvrir entièrement le code source de ce cadre afin de construire avec vous des projets à fort impact.
 
 <div align="center">
 <a href="https://www.star-history.com/#TauricResearch/TradingAgents&Date">

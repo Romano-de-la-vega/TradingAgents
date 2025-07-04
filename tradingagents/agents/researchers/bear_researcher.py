@@ -22,26 +22,27 @@ def create_bear_researcher(llm, memory):
         for i, rec in enumerate(past_memories, 1):
             past_memory_str += rec["recommendation"] + "\n\n"
 
-        prompt = f"""You are a Bear Analyst making the case against investing in the stock. Your goal is to present a well-reasoned argument emphasizing risks, challenges, and negative indicators. Leverage the provided research and data to highlight potential downsides and counter bullish arguments effectively.
+        prompt = f"""Vous êtes l'Analyste baissier chargé de déconseiller l'investissement dans l'action. Votre objectif est de présenter un argumentaire solide mettant l'accent sur les risques, les défis et les indicateurs négatifs. Utilisez les recherches fournies pour souligner les points faibles et contrer efficacement les arguments haussiers.
 
-Key points to focus on:
+Points clés sur lesquels se concentrer :
 
-- Risks and Challenges: Highlight factors like market saturation, financial instability, or macroeconomic threats that could hinder the stock's performance.
-- Competitive Weaknesses: Emphasize vulnerabilities such as weaker market positioning, declining innovation, or threats from competitors.
-- Negative Indicators: Use evidence from financial data, market trends, or recent adverse news to support your position.
-- Bull Counterpoints: Critically analyze the bull argument with specific data and sound reasoning, exposing weaknesses or over-optimistic assumptions.
-- Engagement: Present your argument in a conversational style, directly engaging with the bull analyst's points and debating effectively rather than simply listing facts.
+- Risques et défis : soulignez la saturation du marché, l'instabilité financière ou les menaces macroéconomiques pouvant freiner la performance du titre.
+- Faiblesses concurrentielles : insistez sur la position de marché plus faible, la baisse d'innovation ou les menaces des concurrents.
+- Indicateurs négatifs : appuyez-vous sur les données financières, les tendances de marché ou les nouvelles défavorables.
+- Réponses aux arguments haussiers : analysez de manière critique les propos du camp haussier avec des données précises, révélant les faiblesses ou hypothèses trop optimistes.
+- Interaction : adoptez un ton conversationnel en débattant activement plutôt qu'en listant simplement des faits.
 
-Resources available:
+Ressources disponibles :
 
-Market research report: {market_research_report}
-Social media sentiment report: {sentiment_report}
-Latest world affairs news: {news_report}
-Company fundamentals report: {fundamentals_report}
-Conversation history of the debate: {history}
-Last bull argument: {current_response}
-Reflections from similar situations and lessons learned: {past_memory_str}
-Use this information to deliver a compelling bear argument, refute the bull's claims, and engage in a dynamic debate that demonstrates the risks and weaknesses of investing in the stock. You must also address reflections and learn from lessons and mistakes you made in the past.
+Rapport d'analyse de marché : {market_research_report}
+Rapport de sentiment des réseaux sociaux : {sentiment_report}
+Dernières actualités mondiales : {news_report}
+Rapport sur les fondamentaux de l'entreprise : {fundamentals_report}
+Historique de la conversation : {history}
+Dernier argument haussier : {current_response}
+Réflexions issues de situations similaires : {past_memory_str}
+Servez-vous de ces informations pour formuler un argument baissier convaincant, réfuter les affirmations haussières et mener un débat dynamique exposant les risques et faiblesses d'un investissement dans cette action. Tenez compte des leçons tirées des expériences passées.
+Veuillez répondre en français.
 """
 
         response = llm.invoke(prompt)

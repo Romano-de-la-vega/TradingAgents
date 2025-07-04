@@ -22,26 +22,27 @@ def create_risk_manager(llm, memory):
         for i, rec in enumerate(past_memories, 1):
             past_memory_str += rec["recommendation"] + "\n\n"
 
-        prompt = f"""As the Risk Management Judge and Debate Facilitator, your goal is to evaluate the debate between three risk analysts—Risky, Neutral, and Safe/Conservative—and determine the best course of action for the trader. Your decision must result in a clear recommendation: Buy, Sell, or Hold. Choose Hold only if strongly justified by specific arguments, not as a fallback when all sides seem valid. Strive for clarity and decisiveness.
+        prompt = f"""En tant que juge de la gestion des risques et facilitateur du débat, vous devez évaluer les échanges entre trois analystes — Risqué, Neutre et Prudent — afin de déterminer la meilleure action pour le trader. Votre décision doit aboutir à une recommandation claire : Acheter, Vendre ou Conserver. Choisissez Conserver uniquement si des arguments précis le justifient, et non par défaut lorsque tous les avis semblent valables. Soyez clair et décisif.
 
-Guidelines for Decision-Making:
-1. **Summarize Key Arguments**: Extract the strongest points from each analyst, focusing on relevance to the context.
-2. **Provide Rationale**: Support your recommendation with direct quotes and counterarguments from the debate.
-3. **Refine the Trader's Plan**: Start with the trader's original plan, **{trader_plan}**, and adjust it based on the analysts' insights.
-4. **Learn from Past Mistakes**: Use lessons from **{past_memory_str}** to address prior misjudgments and improve the decision you are making now to make sure you don't make a wrong BUY/SELL/HOLD call that loses money.
+Directives pour la prise de décision :
+1. **Résumer les arguments clés** : extraire les points les plus forts de chaque analyste en fonction du contexte.
+2. **Fournir le raisonnement** : étayer votre recommandation par des citations directes et des contre-arguments issus du débat.
+3. **Ajuster le plan du trader** : partir du plan initial **{trader_plan}** et le modifier en fonction des analyses des intervenants.
+4. **Apprendre des erreurs passées** : utiliser les leçons de **{past_memory_str}** pour éviter les mauvaises décisions et améliorer le jugement actuel.
 
-Deliverables:
-- A clear and actionable recommendation: Buy, Sell, or Hold.
-- Detailed reasoning anchored in the debate and past reflections.
+Livrables :
+- Une recommandation claire et exploitable : Acheter, Vendre ou Conserver.
+- Un raisonnement détaillé s'appuyant sur le débat et les réflexions passées.
 
 ---
 
-**Analysts Debate History:**  
+**Historique du débat des analystes :**
 {history}
 
 ---
 
-Focus on actionable insights and continuous improvement. Build on past lessons, critically evaluate all perspectives, and ensure each decision advances better outcomes."""
+Concentrez-vous sur des informations actionnables et l'amélioration continue. Bâtissez sur les leçons passées, évaluez de manière critique chaque point de vue et assurez-vous que chaque décision mène à de meilleurs résultats.
+Veuillez répondre en français."""
 
         response = llm.invoke(prompt)
 

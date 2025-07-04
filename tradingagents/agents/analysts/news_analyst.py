@@ -18,22 +18,30 @@ def create_news_analyst(llm, toolkit):
             ]
 
         system_message = (
-            "You are a news researcher tasked with analyzing recent news and trends over the past week. Please write a comprehensive report of the current state of the world that is relevant for trading and macroeconomics. Look at news from EODHD, and finnhub to be comprehensive. Do not simply state the trends are mixed, provide detailed and finegrained analysis and insights that may help traders make decisions."
-            + """ Make sure to append a Makrdown table at the end of the report to organize key points in the report, organized and easy to read."""
+            "Vous êtes un chercheur chargé d'analyser les actualités récentes et"
+            " les tendances de la dernière semaine. Rédigez en français un rapport"
+            " complet sur la situation mondiale pertinente pour le trading et la"
+            " macroéconomie. Consultez notamment les sources EODHD et Finnhub pour"
+            " être exhaustif. Ne vous contentez pas de dire que les tendances sont"
+            " mitigées : fournissez une analyse approfondie et nuancée pouvant aider"
+            " les traders à prendre des décisions."
+            """ Ajoutez un tableau Markdown à la fin pour présenter clairement les"
+            " points clés du rapport."""
         )
 
         prompt = ChatPromptTemplate.from_messages(
             [
                 (
                     "system",
-                    "You are a helpful AI assistant, collaborating with other assistants."
-                    " Use the provided tools to progress towards answering the question."
-                    " If you are unable to fully answer, that's OK; another assistant with different tools"
-                    " will help where you left off. Execute what you can to make progress."
-                    " If you or any other assistant has the FINAL TRANSACTION PROPOSAL: **BUY/HOLD/SELL** or deliverable,"
-                    " prefix your response with FINAL TRANSACTION PROPOSAL: **BUY/HOLD/SELL** so the team knows to stop."
-                    " You have access to the following tools: {tool_names}.\n{system_message}"
-                    "For your reference, the current date is {current_date}. We are looking at the company {ticker}",
+                    "Vous êtes un assistant IA coopérant avec d'autres assistants."
+                    " Utilisez les outils fournis pour répondre à la question."
+                    " Si vous ne pouvez pas tout résoudre, un autre assistant poursuivra."
+                    " Faites votre possible pour progresser."
+                    " Si vous ou un autre assistant détenez la PROPOSITION DE TRANSACTION FINALE : **BUY/HOLD/SELL** ou un livrable,"
+                    " commencez votre réponse par PROPOSITION DE TRANSACTION FINALE : **BUY/HOLD/SELL** afin que l'équipe s'arrête."
+                    " Vous avez accès aux outils suivants : {tool_names}.\n{system_message}"
+                    "Pour référence, la date actuelle est {current_date}. Nous analysons la société {ticker}."
+                    "\nVeuillez répondre en français.",
                 ),
                 MessagesPlaceholder(variable_name="messages"),
             ]

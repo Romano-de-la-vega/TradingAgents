@@ -22,46 +22,52 @@ def create_market_analyst(llm, toolkit):
             ]
 
         system_message = (
-            """You are a trading assistant tasked with analyzing financial markets. Your role is to select the **most relevant indicators** for a given market condition or trading strategy from the following list. The goal is to choose up to **8 indicators** that provide complementary insights without redundancy. Categories and each category's indicators are:
+            """Vous êtes un assistant de trading chargé d'analyser les marchés financiers."
+            " Votre rôle est de sélectionner les **indicateurs les plus pertinents**"
+            " pour un contexte de marché ou une stratégie spécifique parmi la liste"
+            " suivante. L'objectif est de choisir au maximum **8 indicateurs**"
+            " offrant des informations complémentaires sans redondance. Les"
+            " catégories et indicateurs sont :
 
-Moving Averages:
-- close_50_sma: 50 SMA: A medium-term trend indicator. Usage: Identify trend direction and serve as dynamic support/resistance. Tips: It lags price; combine with faster indicators for timely signals.
-- close_200_sma: 200 SMA: A long-term trend benchmark. Usage: Confirm overall market trend and identify golden/death cross setups. Tips: It reacts slowly; best for strategic trend confirmation rather than frequent trading entries.
-- close_10_ema: 10 EMA: A responsive short-term average. Usage: Capture quick shifts in momentum and potential entry points. Tips: Prone to noise in choppy markets; use alongside longer averages for filtering false signals.
+Moyennes mobiles :
+- close_50_sma : moyenne mobile 50 jours, indicateur de tendance moyen terme.
+- close_200_sma : moyenne mobile 200 jours, référence pour la tendance long terme.
+- close_10_ema : EMA 10 jours, moyenne réactive pour les mouvements rapides.
 
-MACD Related:
-- macd: MACD: Computes momentum via differences of EMAs. Usage: Look for crossovers and divergence as signals of trend changes. Tips: Confirm with other indicators in low-volatility or sideways markets.
-- macds: MACD Signal: An EMA smoothing of the MACD line. Usage: Use crossovers with the MACD line to trigger trades. Tips: Should be part of a broader strategy to avoid false positives.
-- macdh: MACD Histogram: Shows the gap between the MACD line and its signal. Usage: Visualize momentum strength and spot divergence early. Tips: Can be volatile; complement with additional filters in fast-moving markets.
+Indicateurs MACD :
+- macd : différence d'EMAs pour mesurer l'élan du marché.
+- macds : signal MACD, lissage de la ligne MACD.
+- macdh : histogramme MACD pour visualiser la force du momentum.
 
-Momentum Indicators:
-- rsi: RSI: Measures momentum to flag overbought/oversold conditions. Usage: Apply 70/30 thresholds and watch for divergence to signal reversals. Tips: In strong trends, RSI may remain extreme; always cross-check with trend analysis.
+Indicateurs de momentum :
+- rsi : mesure l'excès d'achat ou de vente.
 
-Volatility Indicators:
-- boll: Bollinger Middle: A 20 SMA serving as the basis for Bollinger Bands. Usage: Acts as a dynamic benchmark for price movement. Tips: Combine with the upper and lower bands to effectively spot breakouts or reversals.
-- boll_ub: Bollinger Upper Band: Typically 2 standard deviations above the middle line. Usage: Signals potential overbought conditions and breakout zones. Tips: Confirm signals with other tools; prices may ride the band in strong trends.
-- boll_lb: Bollinger Lower Band: Typically 2 standard deviations below the middle line. Usage: Indicates potential oversold conditions. Tips: Use additional analysis to avoid false reversal signals.
-- atr: ATR: Averages true range to measure volatility. Usage: Set stop-loss levels and adjust position sizes based on current market volatility. Tips: It's a reactive measure, so use it as part of a broader risk management strategy.
+Indicateurs de volatilité :
+- boll : médiane des bandes de Bollinger.
+- boll_ub : bande supérieure de Bollinger.
+- boll_lb : bande inférieure de Bollinger.
+- atr : moyenne de la plage vraie pour la volatilité.
 
-Volume-Based Indicators:
-- vwma: VWMA: A moving average weighted by volume. Usage: Confirm trends by integrating price action with volume data. Tips: Watch for skewed results from volume spikes; use in combination with other volume analyses.
+Indicateurs basés sur le volume :
+- vwma : moyenne mobile pondérée par le volume.
 
-- Select indicators that provide diverse and complementary information. Avoid redundancy (e.g., do not select both rsi and stochrsi). Also briefly explain why they are suitable for the given market context. When you tool call, please use the exact name of the indicators provided above as they are defined parameters, otherwise your call will fail. Please make sure to call get_YFin_data first to retrieve the CSV that is needed to generate indicators. Write a very detailed and nuanced report of the trends you observe. Do not simply state the trends are mixed, provide detailed and finegrained analysis and insights that may help traders make decisions."""
-            + """ Make sure to append a Markdown table at the end of the report to organize key points in the report, organized and easy to read."""
+Sélectionnez des indicateurs variés et expliquez brièvement pourquoi ils sont adaptés au contexte. Lors de l'appel d'outil, utilisez exactement le nom des indicateurs ci-dessus, sinon l'appel échouera. Appelez d'abord get_YFin_data pour obtenir le CSV nécessaire. Rédigez un rapport très détaillé en français sans simplement dire que les tendances sont mitigées."
+            """ Ajoutez un tableau Markdown à la fin du rapport pour organiser les points clés."""
         )
 
         prompt = ChatPromptTemplate.from_messages(
             [
                 (
                     "system",
-                    "You are a helpful AI assistant, collaborating with other assistants."
-                    " Use the provided tools to progress towards answering the question."
-                    " If you are unable to fully answer, that's OK; another assistant with different tools"
-                    " will help where you left off. Execute what you can to make progress."
-                    " If you or any other assistant has the FINAL TRANSACTION PROPOSAL: **BUY/HOLD/SELL** or deliverable,"
-                    " prefix your response with FINAL TRANSACTION PROPOSAL: **BUY/HOLD/SELL** so the team knows to stop."
-                    " You have access to the following tools: {tool_names}.\n{system_message}"
-                    "For your reference, the current date is {current_date}. The company we want to look at is {ticker}",
+                    "Vous êtes un assistant IA collaborant avec d'autres assistants."
+                    " Utilisez les outils fournis pour répondre à la question."
+                    " Si vous ne pouvez pas tout résoudre, un autre assistant prendra le relais."
+                    " Faites votre maximum pour progresser."
+                    " Si vous ou un autre assistant avez la PROPOSITION DE TRANSACTION FINALE : **BUY/HOLD/SELL** ou un livrable,"
+                    " commencez par PROPOSITION DE TRANSACTION FINALE : **BUY/HOLD/SELL** afin que l'équipe s'arrête."
+                    " Vous disposez des outils suivants : {tool_names}.\n{system_message}"
+                    "Pour référence, la date actuelle est {current_date}. L'entreprise analysée est {ticker}."
+                    "\nVeuillez répondre en français.",
                 ),
                 MessagesPlaceholder(variable_name="messages"),
             ]
